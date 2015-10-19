@@ -1,0 +1,145 @@
+<div class="yeild">
+<hr>
+<<<<<<< HEAD
+  <div class="thumb"><%= image_tag(current_user.avatar.url(:thumb)) %></div>
+  <div class="form"><%= render 'form' %></div>
+  <div class="notice"><%= notice %></div>
+  <div class="alert"><%= alert %></div>
+</div>
+<% @posts.each do |post| %>
+  <% if post.user.active_friends %>
+  <div class="yeild">
+    <div class="thumb">
+      <%= image_tag(post.user.avatar.url(:thumb)) %>
+    </div>
+    <b><%= post.user.username %></b> 
+    <i class="comment-time"><%= time_ago_in_words(post.created_at) %></i>
+    <% if current_user && post.user == current_user %>
+      <div class="e-d">
+        <%= link_to 'Edit', edit_post_path(post) %> |
+        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+    <p>
+      <%= post.body.truncate_words(70) %>
+      <%= link_to 'Read More', post %>
+    </p>
+    <hr>
+    <% if current_user.liked? post %>
+      <%= link_to "Unlike", dislike_post_path(post), method: :put %> |
+    <% else %>
+      <%= link_to "Like", like_post_path(post), method: :put %> |
+    <% end %>
+    <% if post.comments.empty? %>
+      <%= link_to 'Add Comment', post %>
+    <% else %> 
+     <b><%= post.comments.count %></b> Comment  
+    <% end %>
+    <% if current_user && post.cached_votes_score ==0 %>
+    <% else %>
+      <div>
+      <% if !post.get_downvotes.size == 1 %>
+      <% else %> 
+          <b><%= post.cached_votes_score %></b>
+      <% end %>
+      <% if post.get_upvotes.size ==1  %>
+        person <%= image_tag('like.png', size: '15x15') %> post.
+      <% else %>
+       people <%= image_tag('like.png', size: '15x15') %> post.
+      <%end %><br>
+        <% post.votes_for.voters.each do |p| %>
+          <strong class="voter-name"><%= p.username %></strong>,
+        <% end %>
+      </div>
+    <% end %>
+    <hr>
+    <% post.comments.each do |comment| %><br>
+        <div>
+          <div class="thumbnail"><%= image_tag comment.user.avatar.url(:thumb) %></div>
+          <b><%= comment.user.username %></b> 
+          <i class="comment-time"><%= time_ago_in_words(comment.created_at) %></i><br>
+          <div class="comment-body"><%= comment.body %></div>
+          <div class="like-reply">
+          <% if comment.get_upvotes.size == 0 %>
+          <% else %>
+            <%= comment.cached_votes_score %> 
+          <% end %>
+            <% if current_user.liked? comment %>
+              <%= link_to "Unlike", dislike_post_comment_path(post, comment), method: :put %> |
+            <% else %>
+              <%= link_to "Like", like_post_comment_path(post, comment), method: :put %> |
+            <% end %>
+            <%= link_to 'Reply' %>
+          </div>
+        </div>
+    <% end %>
+    <% if post.comments.exists? %> 
+      <hr>   
+      <%= link_to "New Comment", post %>
+    <% end %>
+  </div>
+  <% end %>
+<% end %>
+=======
+    <div class="thumb"><%= image_tag(current_user.avatar.url(:thumb)) %></div>
+    <div class="form"><%= render 'form' %></div>
+    <div class="notice"><%= notice %></div>
+    <div class="alert"><%= alert %></div>
+</div>
+<% @posts.each do |post| %>
+    <% if post.user.active_friends %>
+    <div class="yeild">
+            <div class="thumb">
+            <%= image_tag(post.user.avatar.url(:thumb)) %></div>
+            <b><%= post.user.username %></b> <i class="comment-time"> <%= time_ago_in_words(post.created_at) %></i>
+            <% if current_user && post.user == current_user %>
+                <div class="e-d">
+                    <%= link_to 'Edit', edit_post_path(post) %> |
+                    <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+            <% end %>
+            <p>
+                <%= post.body.truncate_words(70) %>
+                <%= link_to 'Read More', post %>
+            </p>
+            <hr>
+            
+                <b><%= post.cached_votes_score %></b>
+                <%= link_to "Like", like_post_path(post), method: :put %>
+
+            <% if post.comments.empty? %>
+              | <%= link_to 'Add Comment', post %>
+            <% else %> 
+             | <b><%= post.comments.count %></b> Comment  
+            <% end %>
+
+            <% if current_user && !post.cached_votes_score %>
+            <% else %>
+                <div><%= image_tag('like.png', size: '20x20') %> 
+                 <% post.votes_for.voters.each do |p| %>
+                    <strong class="voter-name"><%= p.username %></strong>,
+                 <% end %>
+                </div>
+            <% end %>
+            <hr>
+            <% post.comments.each do |comment| %><br>
+                <div>
+                    <div class="thumbnail"><%= image_tag comment.user.avatar.url(:thumb) %></div>
+                    <b><%= comment.user.username %></b> <i class="comment-time"> <%= time_ago_in_words(comment.created_at) %></i><br>
+                    <div class="comment-body"><%= comment.body %></div>
+
+                        <div class="like-reply">
+                            <%= comment.cached_votes_score %> 
+                            <%= link_to "Like", like_post_comment_path(post, comment), method: :put %> :: 
+                            <%= link_to 'Reply' %>
+                        </div>
+                </div>
+            <% end %>
+        <% if post.comments.exists? %> 
+            <hr>   
+            <%= link_to "New Comment", post %>
+        <% end %>
+    </div>
+    <% end %>
+<% end %>
+>>>>>>> 35a57fe8bcbbf4e5b671aedcfac150f8c7c10867

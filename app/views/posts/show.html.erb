@@ -1,0 +1,57 @@
+<div class="yeild">
+	<div class="thumb">
+		<%= image_tag(@post.user.avatar.url(:thumb)) %>
+	</div>
+	<b><%= @post.user.username %></b> 
+	<i class="comment-time"> <%= time_ago_in_words(@post.created_at) %></i>	        
+	<% if current_user && @post.user == current_user %>
+		<div class="e-d"><%= link_to 'Edit', edit_post_path(@post) %> |
+		  <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+		</div>
+	<% end %>
+	<p><%= sanitize @post.body %></p>
+	<hr>
+	<% if current_user && !@post.cached_votes_score %>
+	  No Like Yet |
+	<% else %>
+	  <%= @post.cached_votes_score %> Like | 
+  <% end %>
+	<% if @post.comments.empty? %>
+<<<<<<< HEAD
+    <i class="comment-time">No Comment Yet</i>
+=======
+    No Comment Yet |
+>>>>>>> 35a57fe8bcbbf4e5b671aedcfac150f8c7c10867
+  <% else %>
+    <%= @post.comments.count %> Comment
+  <% end %>
+  <% if current_user && !@post.cached_votes_score %>
+  <% else %>
+    <div><%= image_tag('like.png', size: '20x20') %>
+          <% @post.votes_for.voters.each do |p| %>
+          	<strong class="voter-name"><%= p.username %></strong>,
+  				<% end %>
+    </div>
+  <% end %>
+	<hr>
+<% @post.comments.each do |comment| %><br>
+	<div>
+		<div class="thumbnail"><%= image_tag comment.user.avatar.url(:thumb) %></div>
+			<b><%= comment.user.username %></b> <i class="comment-time"> <%= time_ago_in_words(comment.created_at) %></i> 
+
+			<% if current_user && comment.user == current_user %>
+				<div class="e-d">
+				  <%= link_to 'Delete', [@post, comment], method: :delete, data: { confirm: 'Are you sure?' } %></div>
+			<% end %>
+			<br>
+			<div class="comment-body"><%= comment.body %></div>
+		</div>
+			<% end %>
+	<br><hr>
+<%= render 'comments/form' %>
+
+<<<<<<< HEAD
+</div>
+=======
+</div>
+>>>>>>> 35a57fe8bcbbf4e5b671aedcfac150f8c7c10867

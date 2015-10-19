@@ -1,0 +1,16 @@
+<div class="yeild">
+	<h2>Find Friends</h2><hr>
+
+	<div class="notice"><%= notice %></div>
+	<div class="alert"><%= alert %></div>
+
+
+<% @users.each do |user| %><br>
+	<% if user.username !=current_user.username %>
+		<div class="thumb"><%= image_tag(user.avatar.url(:thumb)) %></div>
+			<strong><%= link_to user.username, user %></strong>
+		<div><%= link_to "Add Friend", friendships_path(:friend_id => user), :method => :post %></div>
+	<% end %>
+<% end %>
+
+</div>
